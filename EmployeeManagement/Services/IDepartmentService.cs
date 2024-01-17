@@ -5,4 +5,6 @@ namespace EmployeeManagement.Services;
 public interface IDepartmentService
 {
     Task<ReadDepartment> CreateDepartmentAsync(CreateDepartment department);
+    
+    //Task<ReadDepartment> DeleteDepartmentAsync(CreateDepartment department);
 }

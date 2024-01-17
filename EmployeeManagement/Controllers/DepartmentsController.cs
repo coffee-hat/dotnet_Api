@@ -30,10 +30,29 @@ public class DepartmentsController : ControllerBase
             var departmentCreated = await _departmentService.CreateDepartmentAsync(department);
             return Ok(departmentCreated);
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             return Problem(ex.Message);
         }
     }
+    
+    /*[HttpPost]
+    public async Task<ActionResult<ReadDepartment>> Post([FromBody] CreateDepartment department)
+    {
+        if (department == null || string.IsNullOrWhiteSpace(department.Name)
+                               || string.IsNullOrWhiteSpace(department.Address) || string.IsNullOrWhiteSpace(department.Description))
+        {
+            return BadRequest("Echec de création d'un departement : les informations sont null ou vides");
+        }
 
+        try
+        {
+            var departmentCreated = await _departmentService.CreateDepartmentAsync(department);
+            return Ok(departmentCreated);
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
+    }*/
 }
