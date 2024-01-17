@@ -1,6 +1,6 @@
 ﻿using EmployeeManagement.Dto.Department;
 
-namespace EmployeeManagement.Services;
+namespace EmployeeManagement.Services.Interfaces;
 
 public interface IDepartmentService
 {

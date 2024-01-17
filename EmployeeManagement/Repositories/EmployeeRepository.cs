@@ -1,7 +1,6 @@
-using System.Data;
 using EmployeeManagement.Entities;
-using EmployeeManagement.Exception;
 using EmployeeManagement.Infrastructure;
+using EmployeeManagement.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Repositories;
@@ -25,12 +24,14 @@ public class EmployeeRepository(EmployeeManagementDbContext dbContext) : IEmploy
         return createdEmployee.Entity;
     }
 
-    public Task<Employee> UpdateEmployeeById(int employeeId, Employee employee)
+    public async Task<Employee> UpdateEmployee(Employee employee)
     {
-        throw new NotImplementedException();
+        var updatedEmployee = dbContext.Employees.Update(employee);
+        await dbContext.SaveChangesAsync();
+        return updatedEmployee.Entity;
     }
 
-    public async Task<int> DeleteEmployeeById(Employee employee)
+    public async Task<int> DeleteEmployee(Employee employee)
     {
         var deletedEmployee = dbContext.Employees.Remove(employee).Entity;
         await dbContext.SaveChangesAsync();

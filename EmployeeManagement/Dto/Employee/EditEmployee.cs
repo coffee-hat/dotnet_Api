@@ -1,6 +1,6 @@
 namespace EmployeeManagement.Dto.Employee;
 
-public class CreateEmployee
+public class EditEmployee
 {
     public string FirstName { get; set; }
 

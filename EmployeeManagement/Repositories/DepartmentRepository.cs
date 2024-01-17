@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Entities;
 using EmployeeManagement.Infrastructure;
+using EmployeeManagement.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Repositories;

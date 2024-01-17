@@ -1,6 +1,8 @@
 using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Repositories;
+using EmployeeManagement.Repositories.Interfaces;
 using EmployeeManagement.Services;
+using EmployeeManagement.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +19,10 @@ builder.Services.AddDbContext<EmployeeManagementDbContext>(options =>
 
 // Ajout des repositories
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 // Ajout des services
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddControllers();
 

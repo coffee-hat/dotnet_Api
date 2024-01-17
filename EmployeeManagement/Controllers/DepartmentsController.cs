@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Dto.Department;
 using EmployeeManagement.Services;
+using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers;
