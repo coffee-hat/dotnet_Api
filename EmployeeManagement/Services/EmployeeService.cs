@@ -1,14 +1,14 @@
 using EmployeeManagement.Dto.Employee;
 using EmployeeManagement.Entities;
-using EmployeeManagement.Exception;
 using EmployeeManagement.Repositories.Interfaces;
 using EmployeeManagement.Services.Interfaces;
+using EmployeeManagement.Utils.Exception;
 
 namespace EmployeeManagement.Services;
 
 public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployeeService
 {
-    public async Task<ReadEmployee> CreateEmployee(EditEmployee employee)
+    public async Task<int> CreateEmployee(EditEmployee employee)
     {
         var employeeToCreate = new Employee()
         {
@@ -21,20 +21,16 @@ public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployee
         };
         var employeeCreated = await employeeRepository.CreateEmployee(employeeToCreate);
         
-        return GetReadEmployee(employeeCreated);
+        return employeeCreated.EmployeeId;
     }
 
     public async Task<int> DeleteEmployee(int employeeId)
     {
-        var employee = await employeeRepository.GetEmployeeById(employeeId);
-        if (employee is null)
-        {
-            throw new ApiException(404, $"no employee found with id: {employeeId}");
-        }
+        var employee = await GetEmployeeEntity(employeeId);
         return await employeeRepository.DeleteEmployee(employee);
     }
     
-    public Task<ReadEmployee> UpdateEmployee(int employeeId, EditEmployee employee)
+    public Task<int> UpdateEmployee(int employeeId, EditEmployee employee)
     {
         throw new NotImplementedException();
         /*var currentEmployee = await employeeRepository.GetEmployeeById(employeeId);
@@ -48,24 +44,14 @@ public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployee
 
     public async Task<ReadEmployee> GetEmployee(int employeeId)
     {
-        
-        var employee = await employeeRepository.GetEmployeeById(employeeId);
-        if (employee is null)
-        {
-            throw new ApiException(404, $"no employee found with id: {employeeId}");
-        }
-
+        var employee = await GetEmployeeEntity(employeeId);
         return GetReadEmployee(employee);
     }
     
     public async Task<List<ReadEmployee>> GetEmployees()
     {
         var employees =  await employeeRepository.GetEmployees();
-
-        return employees.Select(e =>
-        {
-            return GetReadEmployee(e);
-        }).ToList();
+        return employees.Select(GetReadEmployee).ToList();
     }
     
     private static ReadEmployee GetReadEmployee(Employee employee)
@@ -79,5 +65,11 @@ public class EmployeeService(IEmployeeRepository employeeRepository) : IEmployee
             phoneNumber = employee.PhoneNumber ?? "",
             position = employee.Position ?? ""
         };
+    }
+
+    private async Task<Employee> GetEmployeeEntity(int employeeId)
+    {
+        var employee = await employeeRepository.GetEmployeeById(employeeId);
+        return employee ?? throw new ApiException(404, $"no employee found with id: {employeeId}");
     }
 }

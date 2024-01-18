@@ -1,8 +1,8 @@
 ﻿using EmployeeManagement.Dto.Department;
 using EmployeeManagement.Entities;
-using EmployeeManagement.Exception;
 using EmployeeManagement.Repositories.Interfaces;
 using EmployeeManagement.Services.Interfaces;
+using EmployeeManagement.Utils.Exception;
 
 namespace EmployeeManagement.Services;
 

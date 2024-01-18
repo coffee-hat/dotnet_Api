@@ -1,4 +1,4 @@
-namespace EmployeeManagement.Exception;
+namespace EmployeeManagement.Utils.Exception;
 
 public class ApiException : System.Exception
 {
