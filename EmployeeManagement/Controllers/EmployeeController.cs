@@ -1,6 +1,5 @@
 using EmployeeManagement.Dto.Department;
 using EmployeeManagement.Dto.Employee;
-using EmployeeManagement.Services;
 using EmployeeManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +12,62 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
     [HttpPost]
     public ActionResult<ReadDepartment> Post([FromBody] EditEmployee employee)
     {
-        if (employee is null)
+        try
+        {
+            var employeeCreated = employeeService.CreateEmployee(employee);
+            return Ok(employeeCreated);
+        }
+        catch (System.Exception e)
+        {
+            return Problem(e.Message);
+        }
+    }
+    
+    [HttpDelete]
+    public async Task<ActionResult<int>> Delete([FromQuery] int employeeId)
+    {
+        if (employeeId <= 0)
         {
             return BadRequest("error creation employee with this body");
         }
 
         try
         {
-            var employeeCreated = employeeService.CreateEmployee(employee);
-            return Ok(employeeCreated);
+            var result = await employeeService.DeleteEmployee(employeeId);
+            return Ok(result);
+        }
+        catch (System.Exception e)
+        {
+            return Problem(e.Message);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<int>> Get([FromQuery] int employeeId)
+    {
+        if (employeeId <= 0)
+        {
+            return BadRequest("error creation employee with this body");
+        }
+
+        try
+        {
+            var result = await employeeService.GetEmployee(employeeId);
+            return Ok(result);
+        }
+        catch (System.Exception e)
+        {
+            return Problem(e.Message);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<List<ReadEmployee>>> Get()
+    {
+        try
+        {
+            var result = await employeeService.GetEmployees();
+            return Ok(result);
         }
         catch (System.Exception e)
         {
