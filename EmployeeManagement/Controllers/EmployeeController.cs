@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/employees")]
 [ApiController]
 public class EmployeeController(IEmployeeService employeeService) : ControllerBase
 {
     [HttpPost]
-    public ActionResult<ReadDepartment> Post([FromBody] EditEmployee employee)
+    public ActionResult<ReadDepartment> Post([FromBody] CreateEmployee employee)
     {
         try
         {
@@ -23,7 +23,7 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
         }
     }
     
-    [HttpDelete]
+    [HttpDelete("{employeeId}")]
     public async Task<ActionResult<int>> Delete([FromQuery] int employeeId)
     {
         if (employeeId <= 0)
@@ -42,7 +42,7 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
         }
     }
     
-    [HttpGet]
+    [HttpGet("{employeeId}")]
     public async Task<ActionResult<int>> Get([FromQuery] int employeeId)
     {
         if (employeeId <= 0)

@@ -1,3 +1,4 @@
+using EmployeeManagement;
 using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Repositories;
 using EmployeeManagement.Repositories.Interfaces;
@@ -14,8 +15,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Connexion  la base de donnes
+var connectionString = "server=localhost;user=root;password=example;database=ManageEmployees";
+var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
+
 builder.Services.AddDbContext<EmployeeManagementDbContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("EmployeesDatabase")));
+    options.UseMySql(connectionString, serverVersion)
+        // The following three options help with debugging, but should
+        // be changed or removed for production.
+        .LogTo(Console.WriteLine, LogLevel.Information)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors());
 
 // Ajout des repositories
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
