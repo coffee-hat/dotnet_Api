@@ -23,7 +23,7 @@ public class AttendanceController(IAttendanceService attendanceService) : Contro
     }
     
     [HttpDelete]
-    public async Task<ActionResult<int>> Delete([FromQuery] int attendanceId)
+    public async Task<ActionResult<int>> Delete(int attendanceId)
     {
         if (attendanceId <= 0)
         {
@@ -42,7 +42,7 @@ public class AttendanceController(IAttendanceService attendanceService) : Contro
     }
     
     [HttpGet]
-    public ActionResult<int> Get([FromQuery] int employeeId)
+    public ActionResult<int> Get(int employeeId)
     {
         if (employeeId <= 0)
         {

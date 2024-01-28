@@ -1,5 +1,4 @@
 using EmployeeManagement;
-using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Repositories;
 using EmployeeManagement.Repositories.Interfaces;
 using EmployeeManagement.Services;
@@ -18,7 +17,7 @@ builder.Services.AddSwaggerGen();
 var connectionString = "server=localhost;user=root;password=example;database=ManageEmployees";
 var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
 
-builder.Services.AddDbContext<EmployeeManagementDbContext>(options =>
+builder.Services.AddDbContext<ManageEmployeesContext>(options =>
     options.UseMySql(connectionString, serverVersion)
         // The following three options help with debugging, but should
         // be changed or removed for production.

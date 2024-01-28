@@ -1,12 +1,9 @@
-﻿using EmployeeManagement.Entities;
-using EmployeeManagement.Infrastructure;
-using EmployeeManagement.Repositories.Interfaces;
-using EmployeeManagement.Utils.Enum;
+﻿using EmployeeManagement.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Repositories;
 
-public class LeaveRequestRepository(EmployeeManagementDbContext dbContext) : ILeaveRequestRepository
+public class LeaveRequestRepository(ManageEmployeesContext dbContext) : ILeaveRequestRepository
 {
     public List<LeaveRequest> GetLeaveRequestByEmployeeId(int employeeId)
     {

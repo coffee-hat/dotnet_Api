@@ -51,8 +51,8 @@ public class DepartmentService : IDepartmentService
             var departmentGet = await _departmentRepository.GetDepartmentByIdAsync(departmentId)
                 ?? throw new ApiException($"Echec de mise à jour d'un département : Il n'existe aucun departement avec cet identifiant : {departmentId}");
 
-            departmentGet = await _departmentRepository.GetDepartmentByNameAsync(department.Name);
-            if (departmentGet is not null && departmentId != departmentGet.DepartmentId)
+            var uniqueName = await _departmentRepository.GetDepartmentByNameAsync(department.Name);
+            if (uniqueName is not null && departmentId != uniqueName.DepartmentId)
             {
                 throw new ApiException($"Echec de mise à jour d'un département : Il existe déjà un département avec ce nom {department.Name}");
             }
@@ -65,7 +65,7 @@ public class DepartmentService : IDepartmentService
 
         }
 
-        public async Task DeleteDepartmentById(int departmentId)
+        public async Task<int> DeleteDepartmentById(int departmentId)
         {
             var departmentGet = await _departmentRepository.GetDepartmentByIdWithIncludeAsync(departmentId)
               ?? throw new ApiException($"Echec de suppression d'un département : Il n'existe aucun departement avec cet identifiant : {departmentId}");
@@ -75,7 +75,8 @@ public class DepartmentService : IDepartmentService
                 throw new ApiException("Echec de suppression car ce departement est lié à des employés");
             }
 
-            await _departmentRepository.DeleteDepartmentByIdAsync(departmentId);
+            var deletedDepartment = await _departmentRepository.DeleteDepartmentByIdAsync(departmentId);
+            return deletedDepartment.DepartmentId;
         }
 
         public async Task<ReadDepartment> CreateDepartmentAsync(CreateDepartment department)

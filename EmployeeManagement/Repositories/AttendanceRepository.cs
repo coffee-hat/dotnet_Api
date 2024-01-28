@@ -1,10 +1,8 @@
-﻿using EmployeeManagement.Entities;
-using EmployeeManagement.Infrastructure;
-using EmployeeManagement.Repositories.Interfaces;
+﻿using EmployeeManagement.Repositories.Interfaces;
 
 namespace EmployeeManagement.Repositories;
 
-public class AttendanceRepository(EmployeeManagementDbContext dbContext) : IAttendanceRepository
+public class AttendanceRepository(ManageEmployeesContext dbContext) : IAttendanceRepository
 {
     public List<Attendance> GetAttendancesByEmployeeId(int employeeId)
     {

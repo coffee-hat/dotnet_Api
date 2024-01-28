@@ -1,11 +1,9 @@
-﻿using EmployeeManagement.Entities;
-using EmployeeManagement.Infrastructure;
-using EmployeeManagement.Repositories.Interfaces;
+﻿using EmployeeManagement.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.Repositories;
 
-public class DepartmentRepository(EmployeeManagementDbContext dbContext) : IDepartmentRepository
+public class DepartmentRepository(ManageEmployeesContext dbContext) : IDepartmentRepository
 {
     public async Task<List<Department>> GetDepartmentsAsync()
     {

@@ -23,8 +23,4 @@
       <Compile Remove="Entities\gen\EmployeeDepartment.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Entities\gen\" />
-    </ItemGroup>
-
 </Project>

@@ -19,7 +19,7 @@ public class LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
             RequestDate = editLeaveRequest.RequestDate,
             StartDate = editLeaveRequest.StartDate,
             EndDate = editLeaveRequest.EndDate,
-            LeaveRequestId = statusId
+            LeaveRequestStatusId = statusId
         };
         var leaveRequestCreated = await leaveRequestRepository.CreateLeaveRequest(leaveRequestToCreate);
         

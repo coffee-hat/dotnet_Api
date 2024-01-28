@@ -24,7 +24,7 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
     }
     
     [HttpDelete("{employeeId}")]
-    public async Task<ActionResult<int>> Delete([FromQuery] int employeeId)
+    public async Task<ActionResult<int>> Delete(int employeeId)
     {
         if (employeeId <= 0)
         {
@@ -43,7 +43,7 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
     }
     
     [HttpGet("{employeeId}")]
-    public async Task<ActionResult<int>> Get([FromQuery] int employeeId)
+    public async Task<ActionResult<int>> Get(int employeeId)
     {
         if (employeeId <= 0)
         {
@@ -72,6 +72,40 @@ public class EmployeeController(IEmployeeService employeeService) : ControllerBa
         catch (System.Exception e)
         {
             return Problem(e.Message);
+        }
+    }
+    
+    [HttpPost("{employeeId}/departments/{departmentId}")]
+    public async Task<ActionResult<int>> AddEmployeeToDepartmentAsync(int employeeId, int departmentId)
+    {
+        if (departmentId < 0)
+        {
+            return BadRequest("id can't be null");
+        }
+
+        try
+        {
+            var employeeDepartment = await employeeService.AddEmployeeToDepartment(employeeId, departmentId);
+            return Ok($"add Employee to department succeeded");
+
+        }
+        catch(Exception ex)
+        {
+            return Problem(ex.Message);
+        }
+    }
+    
+    [HttpPut("{employeeId}")]
+    public async Task<ActionResult<int>> UpdateEmployee(int employeeId, [FromBody] UpdateEmployee employee)
+    {
+        try
+        {
+            var updatedEmployeeId = await employeeService.UpdateEmployee(employeeId, employee);
+            return Ok(updatedEmployeeId);
+        }
+        catch (Exception ex) 
+        { 
+            return Problem(ex.Message);
         }
     }
 }
