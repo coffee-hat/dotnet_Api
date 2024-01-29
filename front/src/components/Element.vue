@@ -23,16 +23,7 @@
           <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
           >
-            <button
-              type="button"
-              id="createProductModalButton"
-              data-modal-target="createProductModal"
-              data-modal-toggle="createProductModal"
-              class="flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-              @click="toggleModal"
-            >
-              {{ "Add " + title }}
-            </button>
+            <AddForm :data="columns" @create-entity="createEntity"/>
           </div>
         </div>
         <div class="overflow-x-auto">
@@ -40,60 +31,79 @@
             :rows="rows"
             :columns="columns"
             @edit="openEditModal"
-            @delete="deleteTodo"
+            @delete="deleteEntity"
           />
         </div>
       </div>
     </div>
     <BaseModel :modalActive="modalActive" @close-modal="toggleModal">
-      <TodoForm @close-modal="toggleModal" v-model:todoId="todoId" />
+      <TodoForm @close-modal="toggleModal" v-model:entityId="entityId" />
     </BaseModel>
   </section>
 </template>
 
-<script setup>
-import { ref, computed, onMounted } from 'vue'
+<script>
 import DataTable from '@/components/DataTable.vue'
 import BaseModel from '@/components/BaseModal.vue'
 import TodoForm from '@/components/TodoForm.vue'
+import AddForm from '@/components/AddForm.vue'
 
-import { useTodoStore } from '@/stores/todo'
+import { getEmployee, getEmployeeColumns, deleteEmployee, createEmployee } from '../stores/employee'
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: ""
+export default {
+  components: {
+    DataTable,
+    BaseModel,
+    TodoForm,
+    AddForm
+  },
+  data(){
+    return {
+      rows: [],
+      columns: getEmployeeColumns(),
+      entityId: Number,
+      modalActive: false
+    }
+  },
+  props: {
+    title: {
+      type: String,
+      default: ""
+    }
+  },
+  methods: {
+    getEntity() {
+      getEmployee().then((res) => {
+        console.log(res.data)
+        this.rows = res.data
+      })
+    },
+    deleteEntity(id){
+      deleteEmployee(id)
+      .then(
+        () => this.getEntity())
+    },
+    createEntity(data){
+      createEmployee(data).then(
+        () => this.getEntity()
+      )
+    },
+    openEditModal(id){
+      entityId = id
+      toggleModal()
+    },
+    toggleModal(){
+      this.modalActive = !this.modalActive
+      if (!modalActive.value) {
+        this.entityId = null
+      }
+    }
+  },
+  mounted() {
+    this.getEntity()
   }
-})
-
-const modalActive = ref(null)
-const todoId = ref(null)
-
-const tasksStore = useTodoStore()
-
-const columns = computed(() => tasksStore.getTodoColumns)
-
-const rows = computed(() => tasksStore.getTodoList)
-
-const toggleModal = () => {
-  modalActive.value = !modalActive.value
-  if (!modalActive.value) {
-    todoId.value = null
-  }
 }
 
-const openEditModal = (id) => {
-  todoId.value = id
-  toggleModal()
-}
-
-const deleteTodo = (id) => {
-  tasksStore.deleteTodo(id)
-}
-
-onMounted(() => {
-  tasksStore.loadTodos()
-})
 </script>
 
 <style scoped>

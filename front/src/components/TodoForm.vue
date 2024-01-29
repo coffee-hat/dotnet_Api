@@ -28,7 +28,7 @@
       type="submit"
       class="inline-flex items-center rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
     >
-      {{ props.todoId ? 'Update' : 'Add' }} Task
+      {{ props.entityId ? 'Update' : 'Add' }} Task
     </button>
   </form>
 </template>
@@ -43,7 +43,7 @@ import TodoDropdown from './Form/TodoDropdown.vue'
 const emit = defineEmits(['close-modal'])
 
 const props = defineProps({
-  todoId: {
+  entityId: {
     type: Number,
     default: null
   }
@@ -62,7 +62,7 @@ const statusList = [
 ]
 
 const performAction = () => {
-  if (props.todoId) {
+  if (props.entityId) {
     updateTask()
   } else {
     addTask()
@@ -86,8 +86,8 @@ const resetTodo = () => {
 }
 
 onMounted(() => {
-  if (props.todoId) {
-    const fetchedTodo = tasksStore.getTodoById(props.todoId)
+  if (props.entityId) {
+    const fetchedTodo = tasksStore.getTodoById(props.entityId)
     todo.value = { ...fetchedTodo }
   }
 })

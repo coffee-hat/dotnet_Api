@@ -1,15 +1,16 @@
 <template>
-  <Element title="Department"/>
-
   <Element title="Employee"/>
 
-  <Element title="A"/>
+  <!--<Element title="Department"/>
 
-  <Element title="B"/>
+  <Element title="Attendances"/>
+
+  <Element title="LeaveRequests"/>-->
 </template>
 
 <script setup>
 import Element from '@/components/Element.vue'
+
 </script>
 
 <style scoped>
