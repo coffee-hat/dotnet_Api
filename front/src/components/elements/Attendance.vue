@@ -17,14 +17,13 @@
           </h2>
         </nav>
         <div>
-          <AddForm :data="columns" @action-entity="createEntity" />
-          <EditForm v-if="activeEdit" :columns="columns" :data="editData" @action-entity="editEntity"/>
+          <AddForm :data="columns" :isEditable="false" @action-entity="createEntity"/>
         </div>
         <div class="overflow-x-auto">
           <DataTable
             :rows="rows"
             :columns="columns"
-            :isEditable="true"
+            emptyList="Selectionner un Employee"
             @edit="displayEntity"
             @delete="deleteEntity"
           />
@@ -39,7 +38,7 @@ import DataTable from '@/components/DataTable.vue'
 import AddForm from '@/components/AddForm.vue'
 import EditForm from '@/components/EditForm.vue'
 
-import { getDepartment, getDepartmentColumns, deleteDepartment, createDepartment, updateDepartment } from '../../stores/department'
+import { getAttendance, getAttendanceColumns, deleteAttendance, createAttendance } from '../../stores/attendance'
 
 export default {
   components: {
@@ -50,7 +49,7 @@ export default {
   data(){
     return {
       rows: [],
-      columns: getDepartmentColumns(),
+      columns: getAttendanceColumns(),
       editData: [],
       activeEdit: false,
       entityId: Number,
@@ -61,37 +60,34 @@ export default {
     title: {
       type: String,
       default: ""
-    }
+    },
+    employeeId: Number
   },
   methods: {
     getEntity() {
-      getDepartment().then((res) => {
+        getAttendance(this.employeeId).then((res) => {
         this.rows = res.data
       })
     },
     deleteEntity(id){
-      deleteDepartment(id)
+      deleteAttendance(id)
       .then(
         () => this.getEntity())
     },
     createEntity(data){
-      createDepartment(data).then(
+        createAttendance(this.employeeId, data).then(
         () => this.getEntity()
       )
     },
     displayEntity(row){
       this.editData = row
       this.activeEdit = true;
-    },
-    editEntity(id, data){
-      this.activeEdit = false;
-      updateDepartment(id, data).then(
-        () => this.getEntity()
-      )
     }
   },
-  mounted() {
-    this.getEntity()
+  watch: {
+    employeeId(){
+      this.getEntity()
+    }
   }
 }
 

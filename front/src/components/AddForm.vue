@@ -24,7 +24,6 @@ export default {
     data(){
       return {
         currentData: this.data,
-        edition: false
       }
     },
     methods: {

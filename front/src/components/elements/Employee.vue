@@ -17,15 +17,18 @@
           </h2>
         </nav>
         <div>
-          <AddForm :data="columns" @action-entity="createEntity" />
+          <AddForm :data="columns" @action-entity="createEntity"/>
           <EditForm v-if="activeEdit" :columns="columns" :data="editData" @action-entity="editEntity"/>
         </div>
         <div class="overflow-x-auto">
           <DataTable
             :rows="rows"
             :columns="columns"
+            :isSelectable="true"
+            :isEditable="true"
             @edit="displayEntity"
             @delete="deleteEntity"
+            @selected-action="selected"
           />
         </div>
       </div>
@@ -87,6 +90,9 @@ export default {
       updateEmployee(id, data).then(
         () => this.getEntity()
       )
+    },
+    selected(id){
+      this.$emit('selected-action', id)
     }
   },
   mounted() {

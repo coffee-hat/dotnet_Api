@@ -22,8 +22,8 @@ public class LeaveRequestController(ILeaveRequestService leaveRequestService) : 
         }
     }
     
-    [HttpDelete]
-    public async Task<ActionResult<int>> Delete([FromQuery] int leaveRequestId)
+    [HttpDelete("{leaveRequestId}")]
+    public async Task<ActionResult<int>> Delete(int leaveRequestId)
     {
         if (leaveRequestId <= 0)
         {
@@ -41,8 +41,8 @@ public class LeaveRequestController(ILeaveRequestService leaveRequestService) : 
         }
     }
     
-    [HttpGet]
-    public async Task<ActionResult<List<ReadLeaveRequest>>> Get([FromQuery] int employeeId)
+    [HttpGet("{employeeId}")]
+    public async Task<ActionResult<List<ReadLeaveRequest>>> Get(int employeeId)
     {
         if (employeeId <= 0)
         {

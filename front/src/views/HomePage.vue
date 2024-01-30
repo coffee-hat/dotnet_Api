@@ -1,16 +1,37 @@
 <template>
-  <Employee title="Employee"/>
+  <Employee title="Employee" @selected-action="setEmployeeId"/>
 
   <Department title="Department"/>
 
-  <!--<<Element title="Attendances"/>
+  <Attendance title="Attendances" :employeeId="employeeId"/>
 
-  <Element title="LeaveRequests"/>-->
+  <LeaveRequest title="LeaveRequests" :employeeId="employeeId"/>
 </template>
 
-<script setup>
+<script>
 import Employee from '@/components/Elements/Employee.vue'
 import Department from '@/components/Elements/Department.vue'
+import Attendance from '@/components/Elements/Attendance.vue'
+import LeaveRequest from '@/components/Elements/LeaveRequest.vue'
+
+export default {
+  components: {
+    Employee,
+    Department,
+    Attendance,
+    LeaveRequest
+  },
+  data(){
+    return {
+      employeeId: Number
+    }
+  },
+  methods: {
+    setEmployeeId(id){
+      this.employeeId = id
+    }
+  }
+}
 
 </script>
 
