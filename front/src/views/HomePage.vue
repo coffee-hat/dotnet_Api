@@ -1,15 +1,16 @@
 <template>
-  <Element title="Employee"/>
+  <Employee title="Employee"/>
 
-  <!--<Element title="Department"/>
+  <Department title="Department"/>
 
-  <Element title="Attendances"/>
+  <!--<<Element title="Attendances"/>
 
   <Element title="LeaveRequests"/>-->
 </template>
 
 <script setup>
-import Element from '@/components/Element.vue'
+import Employee from '@/components/Elements/Employee.vue'
+import Department from '@/components/Elements/Department.vue'
 
 </script>
 

@@ -19,6 +19,17 @@ export function createEmployee(data){
       })
 }
 
+export function updateEmployee(id, data){
+    return axios.put(`http://localhost:5254/api/employees/${id}`, {
+        FirstName: data[0].value,
+        LastName: data[1].value,
+        BirthDate: data[2].value,
+        email: data[3].value,
+        phoneNumber: data[4].value,
+        position: data[5].value,
+      })
+}
+
 export function getEmployeeColumns() {
     return [
         {

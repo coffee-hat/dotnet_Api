@@ -16,51 +16,42 @@
             {{ title }}
           </h2>
         </nav>
-
-        <div
-          class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0"
-        >
-          <div
-            class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
-          >
-            <AddForm :data="columns" @create-entity="createEntity"/>
-          </div>
+        <div>
+          <AddForm :data="columns" @action-entity="createEntity" />
+          <EditForm v-if="activeEdit" :columns="columns" :data="editData" @action-entity="editEntity"/>
         </div>
         <div class="overflow-x-auto">
           <DataTable
             :rows="rows"
             :columns="columns"
-            @edit="openEditModal"
+            @edit="displayEntity"
             @delete="deleteEntity"
           />
         </div>
       </div>
     </div>
-    <BaseModel :modalActive="modalActive" @close-modal="toggleModal">
-      <TodoForm @close-modal="toggleModal" v-model:entityId="entityId" />
-    </BaseModel>
   </section>
 </template>
 
 <script>
 import DataTable from '@/components/DataTable.vue'
-import BaseModel from '@/components/BaseModal.vue'
-import TodoForm from '@/components/TodoForm.vue'
 import AddForm from '@/components/AddForm.vue'
+import EditForm from '@/components/EditForm.vue'
 
-import { getEmployee, getEmployeeColumns, deleteEmployee, createEmployee } from '../stores/employee'
+import { getEmployee, getEmployeeColumns, deleteEmployee, createEmployee, updateEmployee } from '../../stores/employee'
 
 export default {
   components: {
     DataTable,
-    BaseModel,
-    TodoForm,
-    AddForm
+    AddForm,
+    EditForm
   },
   data(){
     return {
       rows: [],
       columns: getEmployeeColumns(),
+      editData: [],
+      activeEdit: false,
       entityId: Number,
       modalActive: false
     }
@@ -74,7 +65,6 @@ export default {
   methods: {
     getEntity() {
       getEmployee().then((res) => {
-        console.log(res.data)
         this.rows = res.data
       })
     },
@@ -88,15 +78,15 @@ export default {
         () => this.getEntity()
       )
     },
-    openEditModal(id){
-      entityId = id
-      toggleModal()
+    displayEntity(row){
+      this.editData = row
+      this.activeEdit = true;
     },
-    toggleModal(){
-      this.modalActive = !this.modalActive
-      if (!modalActive.value) {
-        this.entityId = null
-      }
+    editEntity(id, data){
+      this.activeEdit = false;
+      updateEmployee(id, data).then(
+        () => this.getEntity()
+      )
     }
   },
   mounted() {

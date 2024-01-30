@@ -26,7 +26,13 @@
         </td>
         <td class="flex items-center px-4 py-3">
           <button
-            @click="deleteTodo(row.id)"
+              @click="editEntity(row)"
+              class="mr-2 flex items-center justify-center rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            >
+              Edit
+        </button>
+          <button
+            @click="deleteEntity(row.id)"
             class="flex items-center justify-center rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             Delete
@@ -53,11 +59,11 @@ const { rows, columns } = defineProps({
   }
 })
 
-const editTodo = (todoId) => {
-  emit('edit', todoId)
+const editEntity = (row) => {
+  emit('edit', row)
 }
 
-const deleteTodo = (todoId) => {
+const deleteEntity = (todoId) => {
   emit('delete', todoId)
 }
 </script>

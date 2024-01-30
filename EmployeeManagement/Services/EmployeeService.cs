@@ -43,7 +43,7 @@ public class EmployeeService(IEmployeeRepository employeeRepository, IDepartment
             throw new ApiException(404, $"no employee found with id: {employeeId}");
         }
         var findEmployee = await employeeRepository.GetEmployeeByEmailAsync(employee.email);
-        if (findEmployee != null) 
+        if (findEmployee != null && findEmployee.EmployeeId != employeeId) 
         {
             throw new ApiException("Email need to by unique");
         }
